@@ -1,0 +1,31 @@
+---
+title: "Leveraging Generative AI for Traffic Accident Scenario Simulation: A Study Based on Extracted Collision Trajectories from Video Data"
+date: "2025-09-31"
+status: "Abgeschlossen"
+images: 
+    - "/images/projects/GenerativeAI/Diffusion_smooth_samples.jpg"
+    - "/images/projects/GenerativeAI/InfoGan_smooth_samples.jpg"
+    - "/images/projects/GenerativeAI/MTGVAE_smooth_samples.jpg"
+description: "Meine Masterarbeit an der Hochschule Landshut"
+---
+Autonomous vehicles need to navigate both standard traffic situations and rare, complex, and
+hazardous events, like road traffic accidents. However, the shortage of diverse and realistic
+data on accident trajectories limits the training and evaluation of AI models intended for
+these scenarios. This thesis addresses this challenge by exploring the potential of Generative
+AI to simulate multi-agent vehicle collisions using trajectory data extracted from videos.
+We implement and assess three generative architectures—Variational Autoencoders (VAEs),
+Generative Adversarial Networks (GANs), and Denoising Diffusion Probabilistic Models
+(DDPMs)—to evaluate their ability to generate accident trajectories that are physically
+plausible, temporally consistent, and socially interactive. The research employs a realworld
+dataset of labeled vehicle collisions and introduces new preprocessing methods to
+standardize, interpolate, and normalize trajectories, ensuring inter-agent dependencies are
+maintained. Each generative model is trained to produce two-vehicle trajectories based on
+their initial positions, allowing for the creation of semantically relevant variations such as
+near-misses or evasive actions. To evaluate the authenticity and realism of the generated
+samples, we apply metrics like Dynamic Time Warping (DTW), minASD, and minFSD,
+alongside visual inspections. The results indicate that the diffusion model achieved the
+best combined result. While the MTG VAE had constantly low DTW scores, the diversity
+metrics showed that the low DTW was a result of the generation of similar trajectories
+with slight variations in every instance. This study provides valuable insights into the
+most effective generative AI model for generating multi-agent accident trajectories using
+the currently available small dataset.

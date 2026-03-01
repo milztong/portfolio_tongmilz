@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Once UI Magic Portfolio Colors */
+  --color-page: #0a0a0a;
+  --color-surface: #111111;
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  
+  --color-brand: #0070f3;
+  --color-brand-muted: rgba(0, 112, 243, 0.1);
+  
+  --color-neutral-400: #a1a1a1;
+  --color-neutral-800: #1a1a1a;
+  --color-neutral-900: #111111;
+
+  /* Custom Typography Tokens */
+  --tracking-tightest: -0.06em;
+  --tracking-tighter: -0.04em;
+  --tracking-tight: -0.02em;
+}
+
+@layer utilities {
+  @keyframes status-pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  }
+  .animate-status {
+    animation: status-pulse 2s infinite;
+  }
+}
+
+/* Base resets for the "Magic" look */
+@layer base {
+  body {
+    @apply bg-page text-white antialiased;
+    font-family: 'Inter', sans-serif; /* Next.js usually provides this */
+  }
+
+  ::selection {
+    background: var(--color-brand-muted);
+    color: white;
+  }
+}
