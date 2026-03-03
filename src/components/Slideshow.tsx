@@ -6,7 +6,7 @@ import { useRef, useState, useLayoutEffect } from "react";
 
 interface SlideshowProps {
   images: string[];
-  onImageClick: (src: string) => void;
+  onImageClick?: (src: string) => void;
 }
 
 export const Slideshow = ({ images, onImageClick }: SlideshowProps) => {
@@ -52,8 +52,8 @@ export const Slideshow = ({ images, onImageClick }: SlideshowProps) => {
         {images.map((src, i) => (
           <motion.div 
             key={src} 
-            layoutId={src} 
-            onClick={() => onImageClick(src)} 
+            layoutId={onImageClick ? src : undefined}
+            onClick={() => onImageClick?.(src)} 
             className="relative h-[400px] w-[300px] md:w-[600px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/5 bg-white/5"
           >
             <Image 
