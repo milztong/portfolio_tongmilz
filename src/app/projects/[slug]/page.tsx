@@ -1,7 +1,7 @@
 import { getProjectBySlug, getNextProject } from "@/lib/mdx";
 import { PageTransition } from "@/components/PageTransition";
 import { NextProject } from "@/components/NextProject";
-import { Slideshow } from "@/components/Slideshow";
+import { ProjectGallery } from "@/components/DetailedView";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 
@@ -44,7 +44,7 @@ export default async function ProjectDetailPage({
 
           {meta.images && meta.images.length > 0 ? (
             <div className="w-full -mx-6 md:mx-0">
-              <Slideshow images={meta.images} />
+              <ProjectGallery images={meta.images} />
             </div>
           ) : meta.image ? (
             <div className="relative aspect-video w-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02]">

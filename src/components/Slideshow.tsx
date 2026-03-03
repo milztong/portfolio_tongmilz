@@ -4,7 +4,12 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRef, useState, useLayoutEffect } from "react";
 
-export const Slideshow = ({ images }: { images: string[] }) => {
+interface SlideshowProps {
+  images: string[];
+  onImageClick: (src: string) => void;
+}
+
+export const Slideshow = ({ images, onImageClick }: SlideshowProps) => {
   const [dragLimit, setDragLimit] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -45,19 +50,22 @@ export const Slideshow = ({ images }: { images: string[] }) => {
         className="flex gap-6 w-max pb-4"
       >
         {images.map((src, i) => (
-          <div 
-            key={i} 
+          <motion.div 
+            key={src} 
+            layoutId={src} 
+            onClick={() => onImageClick(src)} 
             className="relative h-[400px] w-[300px] md:w-[600px] flex-shrink-0 overflow-hidden rounded-3xl border border-white/5 bg-white/5"
           >
             <Image 
               src={src} 
-              alt="Work Preview" 
+              alt="Preview" 
               fill 
+              unoptimized
               priority={i === 0} 
               className="object-cover pointer-events-none"
               sizes="(max-width: 768px) 300px, 600px"
             />
-          </div>
+          </motion.div>
         ))}
       </motion.div>
     </div>
