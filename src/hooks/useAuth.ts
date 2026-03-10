@@ -1,32 +1,34 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { authApi } from '@/lib/api';
-
-interface AuthUser {
-  username: string;
-  email: string;
-  userId: string;
-}
+import { useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
+import { authApi } from "@/lib/api";
 
 export function useAuth() {
-  const router = useRouter();
-  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    authApi.me()
-      .then((me) => {
-        setUser(me);
-      })
-      .catch(() => {
-        router.push('/stock-predictor/login');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [router]);
+    const publicRoutes = [
+      "/stock-predictor/login",
+      "/stock-predictor/register",
+      "/stock-predictor/landing",
+    ];
 
-  return { user, loading };
+    const isPublic = publicRoutes.some((route) => pathname.startsWith(route));
+
+    if (isPublic) {
+      setLoading(false);
+      return;
+    }
+
+    authApi.me()
+      .then(() => setLoading(false))
+      .catch(() => {
+        router.replace("/stock-predictor/login");
+      });
+  }, [pathname, router]);
+
+  return { loading };
 }
