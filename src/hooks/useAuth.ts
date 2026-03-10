@@ -16,18 +16,23 @@ export function useAuth() {
       "/stock-predictor/landing",
     ];
 
-    const isPublic = publicRoutes.some((route) => pathname.startsWith(route));
+    const check = async () => {
+      const isPublic = publicRoutes.some((route) => pathname.startsWith(route));
 
-    if (isPublic) {
-      setLoading(false);
-      return;
-    }
+      if (isPublic) {
+        setLoading(false);
+        return;
+      }
 
-    authApi.me()
-      .then(() => setLoading(false))
-      .catch(() => {
+      try {
+        await authApi.me();
+        setLoading(false);
+      } catch {
         router.replace("/stock-predictor/login");
-      });
+      }
+    };
+
+    check();
   }, [pathname, router]);
 
   return { loading };

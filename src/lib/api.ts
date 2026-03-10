@@ -1,13 +1,27 @@
-const API_URL = '';
+let authToken: string | null =
+  typeof window !== "undefined" ? sessionStorage.getItem("jwt") : null;
+
+function setToken(token: string | null) {
+  authToken = token;
+  if (typeof window !== "undefined") {
+    if (token) {
+      sessionStorage.setItem("jwt", token);
+    } else {
+      sessionStorage.removeItem("jwt");
+    }
+  }
+}
 
 export async function apiFetch(path: string, options: RequestInit = {}) {
-  const res = await fetch(`${API_URL}${path}`, {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    ...(options.headers as Record<string, string>),
+  };
+
+  const res = await fetch(path, {
     ...options,
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
+    headers,
   });
 
   if (!res.ok) {
@@ -18,37 +32,54 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   return res.json();
 }
 
+// ── Auth API ──────────────────────────────────────────────────────────────────
 export const authApi = {
-  register: (data: { username: string; email: string; password: string }) =>
-    apiFetch('/api/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+  register: async (data: { username: string; email: string; password: string }) => {
+    const res = await apiFetch("/api/auth/register", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    if (res.token) setToken(res.token);
+    return res;
+  },
 
-  login: (data: { email: string; password: string }) =>
-    apiFetch('/api/auth/login', { method: 'POST', body: JSON.stringify(data) }),
+  login: async (data: { email: string; password: string }) => {
+    const res = await apiFetch("/api/auth/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    if (res.token) setToken(res.token);
+    return res;
+  },
 
-  logout: () =>
-    apiFetch('/api/auth/logout', { method: 'POST' }),
+  logout: async () => {
+    setToken(null);
+    return apiFetch("/api/auth/logout", { method: "POST" });
+  },
 
-  me: () =>
-    apiFetch('/api/auth/me'),
+  me: () => apiFetch("/api/auth/me"),
 };
+
 
 export const stockApi = {
-  getDaily: () => apiFetch('/api/stocks/daily'),
+  getDaily: () => apiFetch("/api/stocks/daily"),
   getFullHistory: (stockId: string) => apiFetch(`/api/stocks/${stockId}/history`),
 };
+
 
 export const predictionApi = {
   submit: (data: {
     stockId: string;
     predictedPrice: number;
-    direction: 'UP' | 'DOWN';
-  }) => apiFetch('/api/predictions/submit', { method: 'POST', body: JSON.stringify(data) }),
-
-  getMy: () =>
-    apiFetch('/api/predictions/my'),
+    direction: "UP" | "DOWN";
+  }) =>
+    apiFetch("/api/predictions/submit", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+  getMy: () => apiFetch("/api/predictions/my"),
 };
 
 export const resultApi = {
-  get: (predictionId: string) =>
-    apiFetch(`/api/results/${predictionId}`),
+  get: (predictionId: string) => apiFetch(`/api/results/${predictionId}`),
 };
