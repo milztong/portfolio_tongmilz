@@ -1,26 +1,27 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { authApi } from '@/lib/api';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { authApi } from "@/lib/api";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ username: '', email: '', password: '' });
-  const [error, setError] = useState('');
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
     try {
       await authApi.register(form);
-      // Auto-redirect to login after successful registration
-      router.push('/stock-predictor/login?registered=true');
+      router.replace("/stock-predictor");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Registrierung fehlgeschlagen');
+      setError(
+        err instanceof Error ? err.message : "Registrierung fehlgeschlagen",
+      );
     } finally {
       setLoading(false);
     }
@@ -28,13 +29,12 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
-      {/* Background grid */}
       <div
         className="fixed inset-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage:
-            'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
+            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
         }}
       />
 
@@ -111,13 +111,12 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full bg-white text-black text-xs tracking-widest uppercase py-3 hover:bg-neutral-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed mt-2"
           >
-            {loading ? 'Wird erstellt...' : 'Konto erstellen'}
+            {loading ? "Wird erstellt..." : "Konto erstellen"}
           </button>
         </form>
 
-        
         <p className="text-neutral-600 text-xs mt-8 text-center">
-          Bereits registriert?{' '}
+          Bereits registriert?{" "}
           <Link
             href="/stock-predictor/login"
             className="text-neutral-400 hover:text-white transition-colors"
@@ -127,7 +126,9 @@ export default function RegisterPage() {
         </p>
 
         <p className="text-neutral-600 text-xs mt-4 text-center">
-          Bitte keine echte E-Mail-Adresse verwenden, da keine Bestätigungsmails versendet werden. Die Registrierung dient nur zur Demonstration der Funktionalität.
+          Bitte keine echte E-Mail-Adresse verwenden, da keine Bestätigungsmails
+          versendet werden. Die Registrierung dient nur zur Demonstration der
+          Funktionalität.
         </p>
       </div>
     </main>
