@@ -10,6 +10,7 @@ export const Navbar = () => {
     { label: 'Über mich', href: '/about' },
     { label: 'Arbeit', href: '/work' },
     { label: 'Projekte', href: '/projects' }, 
+    { label: 'Stock Predictor', href: '/stock-predictor' }, 
   ];
 
   return (
