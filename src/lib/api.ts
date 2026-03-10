@@ -13,13 +13,20 @@ function setToken(token: string | null) {
 }
 
 export async function apiFetch(path: string, options: RequestInit = {}) {
+  // Read token fresh on every request — fixes timing issue after redirect
+  const token = authToken || (typeof window !== "undefined" ? sessionStorage.getItem("jwt") : null);
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
     ...(options.headers as Record<string, string>),
   };
 
-  const res = await fetch(path, {
+  const url = path.startsWith("/api/")
+    ? path.replace("/api/", "/backend/")
+    : path;
+
+  const res = await fetch(url, {
     ...options,
     headers,
   });
@@ -32,7 +39,6 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   return res.json();
 }
 
-// ── Auth API ──────────────────────────────────────────────────────────────────
 export const authApi = {
   register: async (data: { username: string; email: string; password: string }) => {
     const res = await apiFetch("/api/auth/register", {
