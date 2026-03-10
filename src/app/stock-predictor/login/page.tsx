@@ -1,0 +1,113 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { authApi } from '@/lib/api';
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await authApi.login(form);
+      router.push('/stock-predictor');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
+      {/* Background grid */}
+      <div
+        className="fixed inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }}
+      />
+
+      <div className="w-full max-w-sm relative">
+        {/* Header */}
+        <div className="mb-10">
+          <Link
+            href="/"
+            className="text-xs text-neutral-500 tracking-widest uppercase hover:text-white transition-colors mb-8 block"
+          >
+            ← Zurück
+          </Link>
+          <p className="text-xs text-neutral-500 tracking-widest uppercase mb-2">
+            Stock Predictor
+          </p>
+          <h1 className="text-3xl font-light text-white tracking-tight">
+            Anmelden
+          </h1>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-xs text-neutral-500 tracking-widest uppercase mb-2">
+              E-Mail
+            </label>
+            <input
+              type="email"
+              required
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              className="w-full bg-transparent border border-neutral-800 text-white px-4 py-3 text-sm outline-none focus:border-neutral-500 transition-colors placeholder:text-neutral-700"
+              placeholder="deine@email.com"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs text-neutral-500 tracking-widest uppercase mb-2">
+              Passwort
+            </label>
+            <input
+              type="password"
+              required
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              className="w-full bg-transparent border border-neutral-800 text-white px-4 py-3 text-sm outline-none focus:border-neutral-500 transition-colors placeholder:text-neutral-700"
+              placeholder="••••••••"
+            />
+          </div>
+
+          {error && (
+            <p className="text-red-400 text-xs tracking-wide">{error}</p>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-white text-black text-xs tracking-widest uppercase py-3 hover:bg-neutral-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed mt-2"
+          >
+            {loading ? 'Wird geladen...' : 'Anmelden'}
+          </button>
+        </form>
+
+        {/* Footer */}
+        <p className="text-neutral-600 text-xs mt-8 text-center">
+          Noch kein Konto?{' '}
+          <Link
+            href="/stock-predictor/register"
+            className="text-neutral-400 hover:text-white transition-colors"
+          >
+            Registrieren
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
+}
