@@ -5,9 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Slideshow } from "./Slideshow";
 import Image from "next/image";
 
+// Komponente für die Galerieansicht eines Projekts, die eine Slideshow der Bilder anzeigt und eine Detailansicht ermöglicht
 export const ProjectGallery = ({ images }: { images: string[] }) => {
+  // State zur Verwaltung des aktuell ausgewählten Bildes für die Detailansicht
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
+  
+  // Effekt, um das Scrollen der Seite zu deaktivieren, wenn eine Detailansicht geöffnet ist
   useEffect(() => {
     if (selectedImage) {
       document.body.style.overflow = "hidden";
@@ -15,7 +18,7 @@ export const ProjectGallery = ({ images }: { images: string[] }) => {
       document.body.style.overflow = "unset";
     }
   }, [selectedImage]);
-
+  // Render der Galerie mit der Slideshow und der Detailansicht, die bei Auswahl eines Bildes angezeigt wird
   return (
     <div className="relative w-full">
       <Slideshow 

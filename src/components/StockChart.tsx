@@ -13,12 +13,15 @@ interface StockChartProps {
   predictionPrice?: number;
 }
 
+// Komponente, die ein interaktives Liniendiagramm für Aktienkurse erstellt, basierend auf den übergebenen Preisdaten, und optional eine gestrichelte Linie für die Vorhersage anzeigt, um den Benutzern eine visuelle Darstellung der Kursentwicklung und ihrer Vorhersage zu bieten
 export default function StockChart({ prices, predictionPrice }: StockChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Effekt, der das Diagramm erstellt und aktualisiert, wenn sich die Preisdaten oder die Vorhersage ändern, und auch einen Resize-Observer hinzufügt, um die Größe des Diagramms bei Änderungen der Containergröße anzupassen
   useEffect(() => {
     if (!containerRef.current || prices.length === 0) return;
 
+    // Erstellen des Diagramms mit benutzerdefinierten Optionen für Layout, Gitter, Kreuzlinien und Skalen, um ein ansprechendes und benutzerfreundliches Diagramm zu erstellen
     const chart = createChart(containerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: 'transparent' },
@@ -53,7 +56,6 @@ export default function StockChart({ prices, predictionPrice }: StockChartProps)
     });
     resizeObserver.observe(containerRef.current);
 
-    // v5: use addSeries instead of addLineSeries
     const lineSeries = chart.addSeries(LineSeries, {
       color: '#ffffff',
       lineWidth: 2,
@@ -72,7 +74,6 @@ export default function StockChart({ prices, predictionPrice }: StockChartProps)
     }));
     lineSeries.setData(data);
 
-    // Optional prediction price line
     if (predictionPrice) {
       lineSeries.createPriceLine({
         price: predictionPrice,

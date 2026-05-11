@@ -9,11 +9,13 @@ interface SlideshowProps {
   onImageClick?: (src: string) => void;
 }
 
+// Komponente, die eine horizontale Slideshow von Bildern erstellt, die durch Ziehen navigiert werden kann, und optional auf Klicks reagiert, um eine Detailansicht zu öffnen
 export const Slideshow = ({ images, onImageClick }: SlideshowProps) => {
   const [dragLimit, setDragLimit] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // Effekt, der die Breite des Karussells und des Inhalts berechnet, um die Grenzen für das Ziehen festzulegen, damit die Bilder nicht über den sichtbaren Bereich hinausgezogen werden können
   useLayoutEffect(() => {
     const computeWidth = () => {
       if (carouselRef.current && contentRef.current) {
@@ -23,10 +25,12 @@ export const Slideshow = ({ images, onImageClick }: SlideshowProps) => {
       }
     };
 
+    // Beobachter, der die Größe des Karussells überwacht und die Breite neu berechnet, wenn sich die Größe ändert, um sicherzustellen, dass die Drag-Grenzen immer korrekt sind
     const observer = new ResizeObserver(() => {
       computeWidth();
     });
 
+    // Beobachte die Größe des Karussells, um die Drag-Grenzen bei Größenänderungen anzupassen
     if (carouselRef.current) {
       observer.observe(carouselRef.current);
     }

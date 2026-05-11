@@ -28,7 +28,7 @@ export default function StockPredictorPage() {
     setStep("loading");
     setError("");
     try {
-      const data = await stockApi.getDaily();
+      const data = await stockApi.getToday();
       setStock(data);
       setStep("predict");
     } catch (err: unknown) {

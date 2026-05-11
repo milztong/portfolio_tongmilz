@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
+// Komponente, die eine sanfte Seitenübergangsanimation erstellt, indem sie die Opazität und Position der Seite animiert, um ein flüssiges und ansprechendes Navigationserlebnis zu bieten
 export const PageTransition = ({ children }: { children: ReactNode }) => {
   return (
     <motion.div

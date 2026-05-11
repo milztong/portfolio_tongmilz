@@ -7,6 +7,7 @@ interface ProjectProps {
   index: number; 
 }
 
+// Komponente, die eine Karte für ein Projekt erstellt, mit einem Titel, einer Kategorie und einem Hover-Effekt, um die Aufmerksamkeit der Besucher zu gewinnen und die Projekte ansprechend zu präsentieren
 export const ProjectCard = ({ title, category, index }: ProjectProps) => {
   return (
     <motion.div

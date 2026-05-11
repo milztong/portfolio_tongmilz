@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
+// Komponente, die einen leuchtenden Cursor-Effekt erstellt, indem sie die Mausposition verfolgt und einen verschwommenen Kreis um den Cursor herum anzeigt
 export const GlobalCursor = () => {
   const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
 

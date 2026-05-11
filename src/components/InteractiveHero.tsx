@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
+// Komponente, die einen interaktiven Hero-Bereich mit einem 3D-Parallax-Effekt und einem leuchtenden Cursor erstellt, um die Aufmerksamkeit der Besucher zu gewinnen und eine moderne, ansprechende Einführung zu bieten
 export const InteractiveHero = () => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+// Komponente, die einen Link zum nächsten Projekt anzeigt, mit einem Titel und einem Pfeil, um die Besucher zu ermutigen, weiter durch die Projekte zu navigieren und mehr von der Arbeit zu entdecken
 export const NextProject = ({ title, slug }: { title: string; slug: string }) => {
   return (
     <Link href={`/projects/${slug}`} className="group block w-full mt-24">

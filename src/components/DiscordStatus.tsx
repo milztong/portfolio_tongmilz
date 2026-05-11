@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 
+// Typdefinition für die Daten, die von der Lanyard API zurückgegeben werden, einschließlich des Discord-Status und der Aktivitäten
 interface LanyardData {
   discord_status: "online" | "idle" | "dnd" | "offline";
   activities: {
@@ -13,10 +14,12 @@ interface LanyardData {
 
 const DISCORD_ID = "342333370203635723";
 
+// Komponente, die den Discord-Status eines Benutzers anzeigt, indem sie die Lanyard API abfragt und den Status sowie die aktuelle Aktivität (z.B. Coding in Visual Studio Code) anzeigt
 export const DiscordStatus = () => {
   const [data, setData] = useState<LanyardData | null>(null);
   const [error, setError] = useState(false);
 
+  // Effekt, der die Lanyard API abfragt, um den Discord-Status zu erhalten, und dies alle 30 Sekunden aktualisiert
   useEffect(() => {
     const controller = new AbortController();
 

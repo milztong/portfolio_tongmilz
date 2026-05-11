@@ -80,12 +80,10 @@ export default function LeaderboardPage() {
           </div>
         )}
 
-        {/* Error */}
         {error && <p className="text-red-400 text-sm">{error}</p>}
 
         {!loading && !error && (
           <>
-            {/* Current user highlight */}
             {currentUserEntry && (
               <div className="border border-neutral-700 p-5 mb-8 flex items-center justify-between">
                 <div className="flex items-center gap-6">

@@ -1,3 +1,4 @@
+// Komponente für die Hintergrundgestaltung der Seite, die verschiedene visuelle Elemente enthält, um ein ansprechendes Design zu schaffen
 export const Background = () => {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden bg-page">

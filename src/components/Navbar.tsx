@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+// Komponente, die eine Navigationsleiste mit Links zu verschiedenen Seiten der Portfolio-Website erstellt, wobei der aktuelle Pfad hervorgehoben wird, um die Navigation zu erleichtern und die Benutzererfahrung zu verbessern
 export const Navbar = () => {
   const pathname = usePathname(); 
 
