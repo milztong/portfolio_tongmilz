@@ -7,7 +7,7 @@ import { authApi } from '@/lib/api';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -58,15 +58,15 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-xs text-neutral-500 tracking-widest uppercase mb-2">
-              E-Mail
+              Benutzername
             </label>
             <input
-              type="email"
+              type="text"
               required
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              value={form.username}
+              onChange={(e) => setForm({ ...form, username: e.target.value })}
               className="w-full bg-transparent border border-neutral-800 text-white px-4 py-3 text-sm outline-none focus:border-neutral-500 transition-colors placeholder:text-neutral-700"
-              placeholder="deine@email.com"
+              placeholder="deinname"
             />
           </div>
 

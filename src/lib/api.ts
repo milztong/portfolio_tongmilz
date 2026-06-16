@@ -16,6 +16,18 @@ function setToken(token: string | null) {
   }
 }
 
+// Der PulseStack auth-service liefert bei Login/Register direkt den Username mit zurück
+// (kein /me-Endpoint vorhanden) — wir cachen ihn lokal für authApi.me().
+function setUsername(username: string | null) {
+  if (typeof window !== "undefined") {
+    if (username) {
+      sessionStorage.setItem("username", username);
+    } else {
+      sessionStorage.removeItem("username");
+    }
+  }
+}
+
 // Allgemeine Funktion zum Aufruf von API-Endpunkten mit automatischer Token-Verwaltung
 export async function apiFetch(path: string, options: RequestInit = {}) {
   // Verwende den in-memory Token, um Timing-Probleme zu vermeiden, insbesondere nach Redirects
@@ -44,32 +56,44 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
 }
 
 // Spezifische API-Funktionen für Authentifizierung, Aktieninformationen, Vorhersagen und Ergebnisse
+//
+// Auth läuft seit der PulseStack-Migration komplett über den zentralen
+// auth-service (/auth-backend/* -> PulseStack auth-service). Das alte
+// StockPredictor-eigene /api/auth/** existiert nicht mehr (410 Gone).
 export const authApi = {
   // Registrierung eines neuen Benutzers und Speicherung des Tokens
   register: async (data: { username: string; email: string; password: string }) => {
-    const res = await apiFetch("/api/auth/register", {
+    const res = await apiFetch("/auth-backend/register", {
       method: "POST",
       body: JSON.stringify(data),
     });
     if (res.token) setToken(res.token);
+    if (res.username) setUsername(res.username);
     return res;
   },
   // Anmeldung eines Benutzers und Speicherung des Tokens
-  login: async (data: { email: string; password: string }) => {
-    const res = await apiFetch("/api/auth/login", {
+  login: async (data: { username: string; password: string }) => {
+    const res = await apiFetch("/auth-backend/login", {
       method: "POST",
       body: JSON.stringify(data),
     });
     if (res.token) setToken(res.token);
+    if (res.username) setUsername(res.username);
     return res;
   },
-  // Abmeldung eines Benutzers und Entfernen des Tokens
+  // Abmeldung eines Benutzers und Entfernen des Tokens (lokal — der auth-service ist stateless)
   logout: async () => {
     setToken(null);
-    return apiFetch("/api/auth/logout", { method: "POST" });
+    setUsername(null);
   },
-  // Abrufen der Informationen des aktuell angemeldeten Benutzers
-  me: () => apiFetch("/api/auth/me"),
+  // Liefert den aktuell angemeldeten Benutzer aus dem lokalen Cache.
+  // Wirft, wenn kein Token vorhanden ist — useAuth() leitet dann zum Login um.
+  me: async () => {
+    const token = authToken || (typeof window !== "undefined" ? sessionStorage.getItem("jwt") : null);
+    const username = typeof window !== "undefined" ? sessionStorage.getItem("username") : null;
+    if (!token || !username) throw new Error("Not authenticated");
+    return { username };
+  },
 };
 
 // API-Funktionen für den Zugriff auf Aktieninformationen
