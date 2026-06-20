@@ -6,3 +6,29 @@ images:
     - "/images/projects/StockPrediction/Stock.jpg"
 description: "Ein kleines Projekt zum Vorhersagen von Stocks ohne Geld. Es ist Gambling aber ohne Geld, wo man ohne Sorgen seine eigene Vorhersagen zum Spaß oder mit seinen eigenen Hypothesen tätigen kann."
 ---
+
+## Was es ist
+
+Eine täglich rotierende "Challenge": jeden Morgen wird per Scheduler eine zufällige, anonymisierte Aktie ausgewählt — nur der Kursverlauf der letzten 90 Tage ist sichtbar, Ticker und Firmenname bleiben bis zur Auflösung verborgen ("Golden Falcon" statt "AAPL"). Nutzer geben eine Richtung (↑/↓) und einen konkreten Zielpreis ab; nach 7 Tagen wird automatisch aufgelöst und der echte Ticker enthüllt.
+
+## Scoring-System
+
+Die Bewertung kombiniert zwei unabhängige Komponenten:
+- **Richtungs-Score** (0 oder 50 Punkte): War die UP/DOWN-Vorhersage korrekt?
+- **Genauigkeits-Score** (0–100 Punkte): Wie nah lag der vorhergesagte Preis am tatsächlichen Schlusskurs? (linear abfallend mit der prozentualen Abweichung)
+- **Gesamt-Score**: max. 150 Punkte, aggregiert über alle aufgelösten Vorhersagen in einem öffentlichen Leaderboard
+
+## Architektur
+
+- **Backend**: Spring Boot 4 (Java 21), Gradle, PostgreSQL (Supabase)
+- **Echte Marktdaten**: Polygon.io API für historische OHLCV-Kurse
+- **Scheduler**: täglicher Cronjob für Challenge-Erstellung, Preis-Nachladung und automatische Auflösung abgelaufener Vorhersagen
+- **Auth**: JWT-basiert, geteiltes Secret mit [PulseStack](/projects/PulseStack) — Login einmal in PulseStack, automatisch eingeloggt im Stock-Predictor (Single Sign-On via JIT-Provisioning)
+- **Integration**: neue Vorhersagen und aufgelöste Ergebnisse werden live als News-Feed-Items an PulseStack gepusht
+
+## Qualitätssicherung
+
+- **CI/CD-Pipeline** über GitHub Actions: bei jedem Push automatisch Build, Tests und Coverage-Report
+- **25 Unit-Tests** (JUnit 5 + Mockito) für die kritische Scoring-Logik, Vorhersage-Validierung und Leaderboard-Aggregation
+- **JaCoCo Code-Coverage** mit automatischem PR-Kommentar zur Testabdeckung
+- Automatisches Deployment auf Render nach erfolgreichem Test-Lauf

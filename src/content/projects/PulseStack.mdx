@@ -1,0 +1,36 @@
+---
+title: "PulseStack"
+date: "2026-01-15"
+status: "Im Gange"
+images: []
+description: "Ein Echtzeit-Workspace, der Live-Chat mit automatisierten Trend-Feeds aus mehreren Quellen kombiniert — als Microservice-Architektur mit Spring Boot, Kafka, Redis und WebSockets."
+---
+
+## Was es ist
+
+PulseStack sammelt automatisch News und Trends aus mehreren Quellen (Reddit, YouTube, GitHub, NewsAPI) für frei wählbare Themen-Channels (z. B. „Java", „AI & ML", „DevOps") und kombiniert sie mit einem klassischen, Discord-ähnlichen Echtzeit-Chat pro Channel. Zusätzlich läuft eine eigene React-Native-App, mit der sich Feed, Chat und der angebundene [Stock-Predictor](/projects/StockPrediction) auch mobil nutzen lassen.
+
+## Architektur — 4 unabhängige Microservices
+
+- **auth-service**: zentrale Registrierung/Login, gibt JWTs aus, die von allen anderen Services (inkl. Stock-Predictor) akzeptiert werden
+- **ingestion-service**: pollt periodisch Reddit-, YouTube-, GitHub- und NewsAPI-Adapter pro Channel, erkennt Duplikate und publisht neue Items über Kafka
+- **processing-service**: konsumiert Kafka-Events, persistiert News-Items und broadcastet sie live per STOMP/WebSocket an alle verbundenen Clients
+- **chat-service**: STOMP-WebSocket-Chat pro Channel inkl. Presence-Tracking (wer ist online) über Redis, mit Typing-Indikatoren und Heartbeats
+
+Die Services kommunizieren asynchron über **Kafka** und teilen sich ein gemeinsames `shared-domain`-Modul für Domain-Objekte (Maven Multi-Module-Projekt).
+
+## Frontend
+
+- **Web**: React + TypeScript, eigene SVG-Charts für die Analytics-Dashboards (bewusst ohne Recharts, da es auf manchen Build-Targets zu Hoisting-Crashes führte), Skeleton-Loader & Error-Boundaries
+- **Mobile**: React Native (Expo) — eigenständige App mit Feed, Live-Chat und Stock-Predictor-Integration, AsyncStorage-basierte Session, STOMP über native WebSockets
+
+## Cross-Service Single Sign-On
+
+Ein JWT-Secret wird zwischen PulseStack und dem Stock-Predictor geteilt. Meldet sich ein Nutzer in PulseStack an, wird beim ersten Request gegen den Stock-Predictor automatisch (Just-in-Time) ein passender User dort angelegt — ohne zweite Registrierung. Ergebnisse aus dem Stock-Predictor (neue Vorhersagen, aufgelöste Scores) laufen als eigener News-Channel direkt in den PulseStack-Feed.
+
+## Qualitätssicherung
+
+- **CI/CD-Pipeline** über GitHub Actions für das komplette Backend (Maven Multi-Module): Build, Tests und Coverage-Report bei jedem Push, automatisches Deployment auf Render
+- **26 Unit-Tests** (JUnit 5 + Mockito + MockWebServer) — u. a. für die Ingestion-Pipeline (Duplikat-Erkennung, Fehlertoleranz bei ausfallenden Adaptern), den Reddit-Adapter, Auth-Flows (Register/Login/JWT) und Presence-Tracking
+- **JaCoCo Code-Coverage** mit automatischem PR-Kommentar
+- Strukturiertes JSON-Logging, OpenAPI/Swagger-Doku pro Service, Spring Profiles für local/prod
