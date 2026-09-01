@@ -14,6 +14,9 @@ export interface ProjectMeta {
   image?: string;
   images?: string[];    
   status?: string;
+  downloadUrl?: string;
+  downloadLabel?: string;
+  downloadNote?: string;
 }
 
 // Verzeichnisse für Arbeitsstellen und Projekte

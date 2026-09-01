@@ -4,6 +4,7 @@ import { NextProject } from "@/components/NextProject";
 import { ProjectGallery } from "@/components/DetailedView";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
+import { Download, Smartphone } from "lucide-react";
 
 export default async function ProjectDetailPage({
   params,
@@ -40,6 +41,24 @@ export default async function ProjectDetailPage({
             <p className="text-xl text-neutral-400 max-w-2xl leading-relaxed">
               {meta.description}
             </p>
+            {meta.downloadUrl && (
+              <div className="flex flex-col items-start gap-3 pt-2 sm:flex-row sm:items-center">
+                <a
+                  href={meta.downloadUrl}
+                  download
+                  className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_12px_40px_rgba(0,112,243,0.3)]"
+                >
+                  <Download aria-hidden="true" size={18} />
+                  {meta.downloadLabel || "Herunterladen"}
+                </a>
+                {meta.downloadNote && (
+                  <span className="inline-flex items-center gap-2 text-sm text-neutral-500">
+                    <Smartphone aria-hidden="true" size={16} />
+                    {meta.downloadNote}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
 
           {meta.images && meta.images.length > 0 ? (

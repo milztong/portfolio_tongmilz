@@ -10,13 +10,14 @@ export const Navbar = () => {
     { label: 'Start', href: '/' },
     { label: 'Über mich', href: '/about' },
     { label: 'Arbeit', href: '/work' },
-    { label: 'Projekte', href: '/projects' }, 
-    { label: 'Stock Predictor', href: '/stock-predictor' }, 
+    { label: 'Projekte', href: '/projects' },
+    { label: 'PulseStack', href: '/projects/PulseStack' },
+    { label: 'Stock Predictor', href: '/stock-predictor' },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center p-6">
-      <div className="flex h-12 items-center gap-8 rounded-full border border-white/10 bg-white/[0.03] px-8 backdrop-blur-md">
+    <nav className="no-scrollbar fixed top-0 left-0 right-0 z-50 overflow-x-auto px-4 py-6">
+      <div className="mx-auto flex h-12 w-max items-center gap-4 rounded-full border border-white/10 bg-white/[0.03] px-5 backdrop-blur-md md:gap-8 md:px-8">
         {navItems.map((item) => (
           <Link 
             key={item.label} 
