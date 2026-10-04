@@ -1,97 +1,76 @@
-// src/app/projects/page.tsx
-import { getAllProjects } from "@/lib/mdx";
-import Link from "next/link";
 import { PageTransition } from "@/components/PageTransition";
-import Image from "next/image";
+import { ProjectVisual } from "@/components/ProjectVisual";
+import { getAllProjects } from "@/lib/mdx";
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
-export default async function ProjectsLogPage() {
-  const allPosts = await getAllProjects();
-  const featuredPosts = allPosts.slice(0, 3);
-  const earlierPosts = allPosts.slice(3);
+const shortTitles: Record<string, string> = {
+  GenerativeAI: "Generative AI für Unfallsimulationen",
+  Praktikumsformular: "Digitales Praktikumsformular",
+  Fitnessapp: "Fitness-App Prototyp",
+  VR_Swingman: "VR Swingman",
+};
+
+const categories: Record<string, string> = {
+  PulseStack: "Distributed Systems",
+  StockPrediction: "Full-Stack",
+  GenerativeAI: "AI Research",
+  Fitnessapp: "Mobile UX",
+  Praktikumsformular: "Web Application",
+  VR_Swingman: "Virtual Reality",
+};
+
+export default async function ProjectsPage() {
+  const priority = ["PulseStack", "StockPrediction", "GenerativeAI", "Fitnessapp", "VR_Swingman", "Praktikumsformular"];
+  const projects = (await getAllProjects()).sort((a, b) => priority.indexOf(a.slug) - priority.indexOf(b.slug));
 
   return (
     <PageTransition>
-      <div className="flex flex-col gap-24 max-w-5xl mx-auto">
-        <header className="flex flex-col gap-4">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tightest">
-            Projekte
+      <main className="site-container pb-28 pt-36 md:pt-44">
+        <header className="mb-14 max-w-4xl md:mb-20">
+          <p className="eyebrow mb-5">Selected engineering work</p>
+          <h1 className="text-balance text-5xl font-black leading-[0.96] tracking-tightest text-white sm:text-6xl md:text-8xl">
+            Projekte, die mehr als eine Demo sind.
           </h1>
-          <p className="text-neutral-400 text-lg max-w-xl">
-            Eine chronologische Auflistung aller Projekte
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-muted md:text-xl">
+            Von Event-getriebenen Microservices bis Generative AI: ausgewählte Arbeiten mit Architektur, Entscheidungen und Ergebnissen.
           </p>
         </header>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {featuredPosts.map((post) => {
-            const thumbnail = 
-              (typeof post.meta.image === "string" && post.meta.image.trim() !== "") 
-              ? post.meta.image 
-              : post.meta.images?.[0];
-
-            return (
-              <Link
-                key={post.slug}
-                href={`/projects/${post.slug}`}
-                className="group flex flex-col gap-4"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-brand/10 to-transparent transition-opacity group-hover:opacity-50" />
-                  
-                  {thumbnail ? (
-                    <Image
-                      src={thumbnail}
-                      alt={post.meta.title}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-white/5 text-xs text-neutral-600">
-                      Kein Bild
-                    </div>
+        <div className="grid gap-5 md:grid-cols-2">
+          {projects.map((project, index) => (
+            <Link
+              key={project.slug}
+              href={`/projects/${project.slug}`}
+              className={`focus-ring group overflow-hidden rounded-[1.75rem] border border-white/10 bg-surface ${index === 0 ? "md:col-span-2 md:grid md:grid-cols-2" : ""}`}
+            >
+              <div className={`${index === 0 ? "min-h-80 md:min-h-[28rem]" : "h-72"} overflow-hidden border-b border-white/8 md:border-b-0`}>
+                <ProjectVisual slug={project.slug} compact={index !== 0} />
+              </div>
+              <div className={`flex flex-col p-6 sm:p-8 ${index === 0 ? "justify-between" : ""}`}>
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-brand">
+                      {categories[project.slug] || "Software Project"}
+                    </span>
+                    <span className="font-mono text-xs text-muted">{project.meta.date?.slice(0, 4)}</span>
+                  </div>
+                  <h2 className={`mt-4 font-black tracking-tight text-white ${index === 0 ? "text-3xl sm:text-4xl" : "text-2xl sm:text-3xl"}`}>
+                    {shortTitles[project.slug] || project.meta.title}
+                  </h2>
+                  {project.meta.description && (
+                    <p className="mt-4 line-clamp-3 text-pretty leading-7 text-muted">{project.meta.description}</p>
                   )}
                 </div>
-
-                <div className="flex flex-col gap-1 px-1">
-                  <span className="text-xs text-neutral-500 tabular-nums">
-                    {post.meta.date}
-                  </span>
-                  <h2 className="text-xl font-medium group-hover:text-brand transition-colors">
-                    {post.meta.title}
-                  </h2>
+                <div className="mt-8 flex items-center justify-between border-t border-white/8 pt-5 text-sm font-bold text-white">
+                  Case Study öffnen
+                  <ArrowUpRight size={18} className="transition-all group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-brand" aria-hidden="true" />
                 </div>
-              </Link>
-            );
-          })}
-        </section>
-
-        {earlierPosts.length > 0 && (
-          <section className="flex flex-col gap-8">
-            <div className="flex items-center gap-4">
-              <h3 className="text-sm font-medium uppercase tracking-[0.2em] text-neutral-600 shrink-0">
-                Weitere Projekte
-              </h3>
-              <div className="h-px w-full bg-white/5" />
-            </div>
-
-            <div className="flex flex-col">
-              {earlierPosts.map((post) => (
-                <Link
-                  key={post.slug}
-                  href={`/projects/${post.slug}`}
-                  className="group flex justify-between items-baseline py-6 border-b border-white/5 transition-colors hover:bg-white/[0.01]"
-                >
-                  <h4 className="text-lg text-neutral-400 group-hover:text-white transition-colors">
-                    {post.meta.title}
-                  </h4>
-                  <span className="text-sm tabular-nums text-neutral-600">
-                    {post.meta.date}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </main>
     </PageTransition>
   );
 }

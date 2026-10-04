@@ -15,10 +15,10 @@ export const GlobalCursor = () => {
 
   return (
     <div 
-      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      className="pointer-events-none fixed inset-0 z-0 hidden overflow-hidden lg:block"
     >
       <div 
-        className="h-[800px] w-[800px] rounded-full bg-cyan-500/5 blur-[120px] transition-opacity duration-500"
+        className="h-[800px] w-[800px] rounded-full bg-brand/[0.035] blur-[120px] transition-opacity duration-500"
         style={{
           transform: `translate(${mousePos.x - 400}px, ${mousePos.y - 400}px)`,
           position: "absolute",

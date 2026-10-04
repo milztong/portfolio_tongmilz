@@ -4,7 +4,7 @@ import { NextProject } from "@/components/NextProject";
 import { ProjectGallery } from "@/components/DetailedView";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
-import { Download, Smartphone } from "lucide-react";
+import { Download, ExternalLink, Smartphone } from "lucide-react";
 
 export default async function ProjectDetailPage({
   params,
@@ -19,7 +19,7 @@ export default async function ProjectDetailPage({
 
   return (
     <PageTransition>
-      <div className="flex flex-col gap-12 pb-24">
+      <div className="site-container flex flex-col gap-12 pb-28 pt-36 md:pt-44">
         <Link
           href="/projects"
           className="group flex items-center gap-2 text-sm text-neutral-500 hover:text-white transition-colors"
@@ -41,17 +41,30 @@ export default async function ProjectDetailPage({
             <p className="text-xl text-neutral-400 max-w-2xl leading-relaxed">
               {meta.description}
             </p>
-            {meta.downloadUrl && (
-              <div className="flex flex-col items-start gap-3 pt-2 sm:flex-row sm:items-center">
-                <a
-                  href={meta.downloadUrl}
-                  download
-                  className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_12px_40px_rgba(0,112,243,0.3)]"
-                >
-                  <Download aria-hidden="true" size={18} />
-                  {meta.downloadLabel || "Herunterladen"}
-                </a>
-                {meta.downloadNote && (
+            {(meta.liveUrl || meta.downloadUrl) && (
+              <div className="flex flex-col items-start gap-3 pt-2 sm:flex-row sm:flex-wrap sm:items-center">
+                {meta.liveUrl && (
+                  <a
+                    href={meta.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
+                  >
+                    <ExternalLink aria-hidden="true" size={18} />
+                    {meta.liveLabel || "Webseite öffnen"}
+                  </a>
+                )}
+                {meta.downloadUrl && (
+                  <a
+                    href={meta.downloadUrl}
+                    download
+                    className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_12px_40px_rgba(0,112,243,0.3)]"
+                  >
+                    <Download aria-hidden="true" size={18} />
+                    {meta.downloadLabel || "Herunterladen"}
+                  </a>
+                )}
+                {meta.downloadUrl && meta.downloadNote && (
                   <span className="inline-flex items-center gap-2 text-sm text-neutral-500">
                     <Smartphone aria-hidden="true" size={16} />
                     {meta.downloadNote}

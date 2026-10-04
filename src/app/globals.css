@@ -2,53 +2,91 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Once UI Magic Portfolio Colors */
-  --color-page: #0a0a0a;
-  --color-surface: #111111;
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  
-  --color-brand: #0070f3;
-  --color-brand-muted: rgba(0, 112, 243, 0.1);
-  
-  --color-neutral-400: #a1a1a1;
-  --color-neutral-800: #1a1a1a;
-  --color-neutral-900: #111111;
+  --color-page: #070a0f;
+  --color-surface: #0d121a;
+  --color-surface-strong: #131a24;
+  --color-ink: #f4f7f2;
+  --color-muted: #929caa;
+  --color-brand: #b8ff5a;
+  --color-brand-strong: #8ee62b;
+  --color-electric: #7c8cff;
+  --color-border-subtle: rgba(255, 255, 255, 0.09);
+  --tracking-tightest: -0.065em;
+  --tracking-tighter: -0.045em;
+  --tracking-tight: -0.025em;
+}
 
-  /* Custom Typography Tokens */
-  --tracking-tightest: -0.06em;
-  --tracking-tighter: -0.04em;
-  --tracking-tight: -0.02em;
+@layer base {
+  :root { color-scheme: dark; }
+  * { border-color: var(--color-border-subtle); }
+  html { background: var(--color-page); }
+  body {
+    @apply bg-page text-ink antialiased;
+    font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    min-width: 320px;
+    overflow-x: hidden;
+  }
+  a, button { -webkit-tap-highlight-color: transparent; }
+  ::selection {
+    background: color-mix(in srgb, var(--color-brand) 28%, transparent);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  .site-container {
+    width: min(100% - 2rem, 76rem);
+    margin-inline: auto;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-brand);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    width: 1.75rem;
+    height: 1px;
+    content: "";
+    background: currentColor;
+  }
+  .panel {
+    border: 1px solid var(--color-border-subtle);
+    background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(18px);
+  }
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-4 focus-visible:ring-offset-page;
+  }
 }
 
 @layer utilities {
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .text-pretty { text-wrap: pretty; }
+  .text-balance { text-wrap: balance; }
   @keyframes status-pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(184, 255, 90, 0.32); }
+    50% { box-shadow: 0 0 0 7px rgba(184, 255, 90, 0); }
   }
-  .animate-status {
-    animation: status-pulse 2s infinite;
-  }
+  .animate-status { animation: status-pulse 2.2s ease-in-out infinite; }
 }
 
-/* Base resets for the "Magic" look */
-@layer base {
-  body {
-    @apply bg-page text-white antialiased;
-    font-family: 'Inter', sans-serif; /* Next.js usually provides this */
-  }
+@media (min-width: 768px) {
+  .site-container { width: min(100% - 4rem, 76rem); }
+}
 
-  ::selection {
-    background: var(--color-brand-muted);
-    color: white;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

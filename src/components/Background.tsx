@@ -1,22 +1,10 @@
-// Komponente für die Hintergrundgestaltung der Seite, die verschiedene visuelle Elemente enthält, um ein ansprechendes Design zu schaffen
 export const Background = () => {
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden bg-page">
-      <div 
-        className="absolute inset-0 opacity-[0.15] [mask-image:radial-gradient(ellipse_at_center,black,transparent)]"
-        style={{
-          backgroundImage: `radial-gradient(circle, #444 1px, transparent 1px)`,
-          backgroundSize: '24px 24px'
-        }}
-      />
-
-      <div 
-        className="absolute top-[-10%] left-1/2 -translate-x-1/2 h-[600px] w-[1000px] rounded-full bg-brand/15 blur-[120px]" 
-      />
-
-      <div 
-        className="absolute bottom-[-20%] right-[-10%] h-[500px] w-[500px] rounded-full bg-brand/5 blur-[100px]" 
-      />
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-page">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:linear-gradient(to_bottom,black,transparent_82%)]" />
+      <div className="absolute -left-48 top-[-18rem] h-[44rem] w-[44rem] rounded-full bg-electric/12 blur-[150px]" />
+      <div className="absolute -right-44 top-[32rem] h-[34rem] w-[34rem] rounded-full bg-brand/8 blur-[150px]" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/60 to-transparent" />
     </div>
-  )
-}
+  );
+};

@@ -14,15 +14,17 @@ export default async function WorkDetailPage({
 
   return (
     <PageTransition>
-      <article className="flex flex-col gap-12">
-        <Link href="/work" className="text-sm text-neutral-500 hover:text-white transition-colors">
+      <article className="site-container flex flex-col gap-12 pb-28 pt-36 md:pt-44">
+        <Link href="/work" className="text-sm text-muted hover:text-white transition-colors">
           ← Zurück
         </Link>
         
         <header className="flex flex-col gap-6">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tightest">
-            {meta.title}
+          <p className="eyebrow">Berufserfahrung</p>
+          <h1 className="text-5xl md:text-7xl font-black tracking-tightest">
+            {meta.company}
           </h1>
+          <p className="max-w-2xl text-xl leading-8 text-muted">{meta.role}</p>
 
           {meta.images && meta.images.length > 0 && (
             <div className="mt-4 -mx-6 md:mx-0">
@@ -30,19 +32,19 @@ export default async function WorkDetailPage({
             </div>
           )}
 
-          <div className="flex gap-8 text-sm text-neutral-400 border-y border-white/5 py-6">
+          <div className="flex flex-wrap gap-8 border-y border-white/8 py-6 text-sm text-muted">
              <div>
-               <p className="text-xs uppercase text-neutral-600 mb-1">Unternehmen</p>
+               <p className="mb-1 text-xs uppercase text-muted">Unternehmen</p>
                {meta.company}
              </div>
              <div>
-               <p className="text-xs uppercase text-neutral-600 mb-1">Dauer</p>
+               <p className="mb-1 text-xs uppercase text-muted">Dauer</p>
                {meta.duration}
              </div>
           </div>
         </header>
 
-        <section className="prose prose-invert max-w-none prose-p:text-neutral-400 prose-headings:text-white">
+        <section className="prose prose-invert max-w-none prose-p:text-muted prose-headings:text-white">
           <MDXRemote source={content} />
         </section>
       </article>
