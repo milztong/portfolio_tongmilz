@@ -3,8 +3,30 @@ import { PageTransition } from "@/components/PageTransition";
 import { NextProject } from "@/components/NextProject";
 import { ProjectGallery } from "@/components/DetailedView";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Download, ExternalLink, Smartphone } from "lucide-react";
+import { Download, ExternalLink, Github, Smartphone } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const { meta } = await getProjectBySlug(slug);
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: { canonical: `/projects/${slug}` },
+    openGraph: {
+      title: `${meta.title} — Tong Milz`,
+      description: meta.description,
+      url: `/projects/${slug}`,
+      type: "article",
+    },
+  };
+}
 
 export default async function ProjectDetailPage({
   params,
@@ -41,7 +63,7 @@ export default async function ProjectDetailPage({
             <p className="text-xl text-neutral-400 max-w-2xl leading-relaxed">
               {meta.description}
             </p>
-            {(meta.liveUrl || meta.downloadUrl) && (
+            {(meta.liveUrl || meta.repositoryUrl || meta.downloadUrl) && (
               <div className="flex flex-col items-start gap-3 pt-2 sm:flex-row sm:flex-wrap sm:items-center">
                 {meta.liveUrl && (
                   <a
@@ -52,6 +74,17 @@ export default async function ProjectDetailPage({
                   >
                     <ExternalLink aria-hidden="true" size={18} />
                     {meta.liveLabel || "Webseite öffnen"}
+                  </a>
+                )}
+                {meta.repositoryUrl && (
+                  <a
+                    href={meta.repositoryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:border-brand hover:text-brand"
+                  >
+                    <Github aria-hidden="true" size={18} />
+                    Quellcode ansehen
                   </a>
                 )}
                 {meta.downloadUrl && (

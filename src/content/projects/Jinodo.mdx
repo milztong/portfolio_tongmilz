@@ -1,0 +1,42 @@
+---
+title: "Jinodo"
+date: "2026-01-15"
+status: "Im Gange"
+images: []
+description: "Ein Echtzeit-Workspace, der Live-Chat mit automatisierten Trend-Feeds kombiniert — als modularer Spring-Boot-Service mit Kafka, Redis und WebSockets."
+liveUrl: "https://jinodo.tongmilz.com/"
+liveLabel: "Jinodo öffnen"
+repositoryUrl: "https://github.com/milztong/Jinodo"
+downloadUrl: "/downloads/jinodo-android-v1.0.1.apk"
+downloadLabel: "Android APK herunterladen"
+downloadNote: "Android 7 oder neuer · Version 1.0.1"
+---
+
+## Was es ist
+
+Jinodo sammelt automatisch News und Trends aus mehreren Quellen (YouTube, GitHub, NewsAPI) für frei wählbare Themen-Channels (z. B. „Java", „AI & ML", „DevOps") und kombiniert sie mit einem klassischen, Discord-ähnlichen Echtzeit-Chat pro Channel. Zusätzlich läuft eine eigene React-Native-App, mit der sich Feed, Chat und der angebundene [Stock-Predictor](/projects/StockPrediction) auch mobil nutzen lassen.
+
+## Architektur — ein Deployment, vier Fachmodule
+
+- **Auth**: zentrale Registrierung und Anmeldung; JWTs werden auch vom Stock-Predictor akzeptiert
+- **Ingestion**: pollt YouTube-, GitHub- und NewsAPI-Adapter, erkennt Duplikate und publiziert neue Items über Kafka
+- **Processing**: konsumiert Kafka-Events, persistiert News-Items und verteilt sie live per STOMP/WebSocket
+- **Chat**: Echtzeit-Chat pro Channel inklusive Presence-Tracking über Redis, Typing-Indikatoren und Heartbeats
+
+Die vier Fachmodule werden als gemeinsames **Spring-Boot-Deployment** betrieben. Das reduziert Hosting- und Betriebsaufwand, während die fachlichen Grenzen im Maven-Multi-Module-Projekt erhalten bleiben. Kafka dient weiterhin als asynchrones Event-Backbone; gemeinsame Domain-Objekte liegen im `shared-domain`-Modul.
+
+## Frontend
+
+- **Web**: React + TypeScript, eigene SVG-Charts für die Analytics-Dashboards (bewusst ohne Recharts, da es auf manchen Build-Targets zu Hoisting-Crashes führte), Skeleton-Loader & Error-Boundaries
+- **Mobile**: React Native mit Expo SDK 57 — eigenständige Android-App mit Feed, Live-Chat und Stock-Predictor-Integration, AsyncStorage-basierter Session und STOMP über native WebSockets. Die APK kann direkt über den Button oben installiert werden; Android fragt dabei gegebenenfalls nach der Erlaubnis für Apps aus dieser Quelle.
+
+## Cross-Service Single Sign-On
+
+Ein JWT-Secret wird zwischen Jinodo und dem Stock-Predictor geteilt. Meldet sich ein Nutzer in Jinodo an, wird beim ersten Request gegen den Stock-Predictor automatisch (Just-in-Time) ein passender User dort angelegt — ohne zweite Registrierung. Ergebnisse aus dem Stock-Predictor (neue Vorhersagen, aufgelöste Scores) laufen als eigener News-Channel direkt in den Jinodo-Feed.
+
+## Qualitätssicherung
+
+- **CI/CD-Pipeline** über GitHub Actions für das komplette Backend (Maven Multi-Module): Build, Tests und Coverage-Report bei jedem Push, automatisches Deployment auf Render
+- **29 Unit-Tests** (JUnit 5 + Mockito + MockWebServer) — u. a. für die Ingestion-Pipeline (Duplikat-Erkennung, Fehlertoleranz bei ausfallenden Adaptern), das Adapter-Query-Mapping, Auth-Flows (Register/Login/JWT) und Presence-Tracking
+- **JaCoCo Code-Coverage** mit automatischem PR-Kommentar
+- Strukturiertes JSON-Logging, OpenAPI/Swagger-Dokumentation und Spring Profiles für local/prod

@@ -12,7 +12,7 @@ const shortTitles: Record<string, string> = {
 };
 
 const categories: Record<string, string> = {
-  PulseStack: "Distributed Systems",
+  Jinodo: "Event-driven Platform",
   StockPrediction: "Full-Stack",
   GenerativeAI: "AI Research",
   Fitnessapp: "Mobile UX",
@@ -21,7 +21,7 @@ const categories: Record<string, string> = {
 };
 
 export default async function ProjectsPage() {
-  const priority = ["PulseStack", "StockPrediction", "GenerativeAI", "Fitnessapp", "VR_Swingman", "Praktikumsformular"];
+  const priority = ["Jinodo", "StockPrediction", "GenerativeAI", "Fitnessapp", "VR_Swingman", "Praktikumsformular"];
   const projects = (await getAllProjects()).sort((a, b) => priority.indexOf(a.slug) - priority.indexOf(b.slug));
 
   return (
@@ -33,7 +33,7 @@ export default async function ProjectsPage() {
             Projekte, die mehr als eine Demo sind.
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-muted md:text-xl">
-            Von Event-getriebenen Microservices bis Generative AI: ausgewählte Arbeiten mit Architektur, Entscheidungen und Ergebnissen.
+            Von modularen, Event-getriebenen Backends bis Generative AI: ausgewählte Arbeiten mit Architektur, Entscheidungen und Ergebnissen.
           </p>
         </header>
 

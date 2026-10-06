@@ -12,6 +12,14 @@ const navItems = [
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const isEnglish = pathname.startsWith("/en");
+  const currentNavItems = isEnglish
+    ? [
+        { label: "Projects", href: "/en#projects" },
+        { label: "Experience", href: "/en#experience" },
+        { label: "About", href: "/en#about" },
+      ]
+    : navItems;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-8 md:pt-6">
@@ -28,13 +36,13 @@ export const Navbar = () => {
         </Link>
 
         <div className="flex items-center gap-1 md:gap-2">
-          {navItems.map((item) => {
+          {currentNavItems.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`focus-ring items-center rounded-lg px-2.5 py-2 text-sm font-medium transition-colors sm:px-3.5 ${item.label === "Erfahrung" ? "hidden sm:inline-flex" : "inline-flex"} ${
+                className={`focus-ring items-center rounded-lg px-2.5 py-2 text-sm font-medium transition-colors sm:px-3.5 ${item.label === "Erfahrung" || item.label === "Experience" ? "hidden sm:inline-flex" : "inline-flex"} ${
                   active ? "bg-white/8 text-white" : "text-muted hover:bg-white/5 hover:text-white"
                 }`}
               >
@@ -44,20 +52,29 @@ export const Navbar = () => {
           })}
         </div>
 
-        <a
-          href="mailto:milzto261@gmail.com"
-          className="focus-ring hidden items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-page transition-colors hover:bg-brand md:inline-flex"
-        >
-          Kontakt
-          <ArrowUpRight size={16} aria-hidden="true" />
-        </a>
-        <a
-          href="mailto:milzto261@gmail.com"
-          aria-label="E-Mail an Tong Milz"
-          className="focus-ring flex h-10 w-10 items-center justify-center rounded-xl bg-white text-page transition-colors hover:bg-brand md:hidden"
-        >
-          <Mail size={17} aria-hidden="true" />
-        </a>
+        <div className="flex items-center gap-2">
+          <Link
+            href={isEnglish ? "/" : "/en"}
+            aria-label={isEnglish ? "Deutsche Version öffnen" : "Open English version"}
+            className="focus-ring flex h-10 min-w-10 items-center justify-center rounded-xl border border-white/10 px-2.5 font-mono text-xs font-bold text-muted transition-colors hover:border-brand/30 hover:text-brand"
+          >
+            {isEnglish ? "DE" : "EN"}
+          </Link>
+          <a
+            href="mailto:milzto261@gmail.com"
+            className="focus-ring hidden items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-page transition-colors hover:bg-brand md:inline-flex"
+          >
+            {isEnglish ? "Contact" : "Kontakt"}
+            <ArrowUpRight size={16} aria-hidden="true" />
+          </a>
+          <a
+            href="mailto:milzto261@gmail.com"
+            aria-label={isEnglish ? "Email Tong Milz" : "E-Mail an Tong Milz"}
+            className="focus-ring flex h-10 w-10 items-center justify-center rounded-xl bg-white text-page transition-colors hover:bg-brand md:hidden"
+          >
+            <Mail size={17} aria-hidden="true" />
+          </a>
+        </div>
       </nav>
     </header>
   );

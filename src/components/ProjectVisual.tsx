@@ -1,14 +1,14 @@
 import { Activity, Database, GitBranch, Radio, Server, Smartphone } from "lucide-react";
 
 export function ProjectVisual({ slug, compact = false }: { slug: string; compact?: boolean }) {
-  if (slug === "PulseStack") return <PulseStackVisual compact={compact} />;
+  if (slug === "Jinodo") return <JinodoVisual compact={compact} />;
   if (slug === "StockPrediction") return <StockVisual />;
   if (slug === "GenerativeAI") return <TrajectoryVisual />;
   if (slug === "Fitnessapp") return <FitnessVisual />;
   return <CodeVisual slug={slug} />;
 }
 
-function PulseStackVisual({ compact }: { compact: boolean }) {
+function JinodoVisual({ compact }: { compact: boolean }) {
   return (
     <div className="relative h-full min-h-64 overflow-hidden bg-[radial-gradient(circle_at_65%_35%,rgba(124,140,255,0.22),transparent_45%),#0c1118] p-5 sm:p-7">
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:40px_40px]" />

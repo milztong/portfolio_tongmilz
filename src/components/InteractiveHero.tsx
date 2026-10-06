@@ -1,13 +1,13 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowDownRight, ArrowUpRight, Database, Radio, Server, Smartphone } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Database, Github, Linkedin, Radio, Server, Smartphone } from "lucide-react";
 import Link from "next/link";
 import type { MouseEvent, ReactNode } from "react";
 
 const proofPoints = [
-  { value: "4", label: "Microservices" },
-  { value: "54", label: "Unit-Tests" },
+  { value: "4", label: "Backend-Module" },
+  { value: "2", label: "Web + Mobile" },
   { value: "M.Sc.", label: "Informatik" },
 ];
 
@@ -42,7 +42,7 @@ export const InteractiveHero = () => {
           <span className="block text-brand">Substanz.</span>
         </h1>
         <p className="mt-7 max-w-xl text-pretty text-lg leading-8 text-muted md:text-xl">
-          Ich bin Tong Milz, Softwareentwickler mit M.Sc. Informatik. Ich verbinde robuste Backend-Architektur mit klaren Interfaces – von Spring-Boot-Microservices bis React Native.
+          Ich bin Tong Milz, Softwareentwickler mit M.Sc. Informatik. Ich verbinde robuste Backend-Architektur mit klaren Interfaces – von modularen Spring-Boot-Systemen bis React Native.
         </p>
 
         <div className="mt-9 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
@@ -60,6 +60,25 @@ export const InteractiveHero = () => {
             Profil ansehen
             <ArrowUpRight size={17} aria-hidden="true" />
           </Link>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-4 text-sm font-bold">
+          <a
+            href="https://github.com/milztong"
+            target="_blank"
+            rel="noreferrer"
+            className="focus-ring inline-flex items-center gap-2 rounded-lg py-2 text-muted transition-colors hover:text-brand"
+          >
+            <Github size={17} aria-hidden="true" /> GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/tong-milz-1539953a6"
+            target="_blank"
+            rel="noreferrer"
+            className="focus-ring inline-flex items-center gap-2 rounded-lg py-2 text-muted transition-colors hover:text-brand"
+          >
+            <Linkedin size={17} aria-hidden="true" /> LinkedIn
+          </a>
         </div>
 
         <dl className="mt-12 grid w-full max-w-xl grid-cols-3 border-t border-white/10 pt-6">
@@ -81,7 +100,7 @@ export const InteractiveHero = () => {
           <div className="flex items-center justify-between border-b border-white/8 pb-4">
             <div>
               <p className="font-mono text-[0.68rem] font-bold uppercase tracking-[0.18em] text-brand">Live architecture</p>
-              <p className="mt-1 text-sm font-semibold text-white">PulseStack event flow</p>
+              <p className="mt-1 text-sm font-semibold text-white">Jinodo event flow</p>
             </div>
             <div className="flex items-center gap-2 text-xs text-muted">
               <span className="h-2 w-2 rounded-full bg-brand" />
@@ -106,7 +125,7 @@ export const InteractiveHero = () => {
                   <p className="text-xs text-muted">event backbone</p>
                 </div>
               </div>
-              <span className="font-mono text-xs font-bold text-brand">24 msg/s</span>
+              <span className="font-mono text-xs font-bold text-brand">event-driven</span>
             </div>
             <SystemNode icon={<Database size={18} />} label="Processing" detail="Persist · Broadcast" />
             <SystemNode icon={<Smartphone size={18} />} label="Clients" detail="Web · Android" tone="electric" />

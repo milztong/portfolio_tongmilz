@@ -16,7 +16,7 @@ function setToken(token: string | null) {
   }
 }
 
-// Der PulseStack auth-service liefert bei Login/Register direkt den Username mit zurück
+// Jinodo liefert bei Login/Register direkt den Username mit zurück
 // (kein /me-Endpoint vorhanden) — wir cachen ihn lokal für authApi.me().
 function setUsername(username: string | null) {
   if (typeof window !== "undefined") {
@@ -57,8 +57,8 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
 
 // Spezifische API-Funktionen für Authentifizierung, Aktieninformationen, Vorhersagen und Ergebnisse
 //
-// Auth läuft seit der PulseStack-Migration komplett über den zentralen
-// auth-service (/auth-backend/* -> PulseStack auth-service). Das alte
+// Auth läuft komplett über das zentrale Jinodo-Backend
+// (/auth-backend/* -> Jinodo). Das alte
 // StockPredictor-eigene /api/auth/** existiert nicht mehr (410 Gone).
 export const authApi = {
   // Registrierung eines neuen Benutzers und Speicherung des Tokens

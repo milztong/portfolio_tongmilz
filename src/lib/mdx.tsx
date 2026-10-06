@@ -16,6 +16,7 @@ export interface ProjectMeta {
   status?: string;
   liveUrl?: string;
   liveLabel?: string;
+  repositoryUrl?: string;
   downloadUrl?: string;
   downloadLabel?: string;
   downloadNote?: string;

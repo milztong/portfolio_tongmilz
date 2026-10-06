@@ -5,6 +5,7 @@ status: "Im Gange"
 images: 
     - "/images/projects/StockPrediction/Stock.jpg"
 description: "Eine tägliche Aktien-Challenge: Nutzer prognostizieren die Entwicklung einer anonymisierten Aktie und messen sich über ein transparentes Scoring-System."
+repositoryUrl: "https://github.com/milztong/StockPredictionGame"
 ---
 
 ## Was es ist
@@ -23,8 +24,8 @@ Die Bewertung kombiniert zwei unabhängige Komponenten:
 - **Backend**: Spring Boot 4 (Java 21), Gradle, PostgreSQL (Supabase)
 - **Echte Marktdaten**: Polygon.io API für historische OHLCV-Kurse
 - **Scheduler**: täglicher Cronjob für Challenge-Erstellung, Preis-Nachladung und automatische Auflösung abgelaufener Vorhersagen
-- **Auth**: JWT-basiert, geteiltes Secret mit [PulseStack](/projects/PulseStack) — Login einmal in PulseStack, automatisch eingeloggt im Stock-Predictor (Single Sign-On via JIT-Provisioning)
-- **Integration**: neue Vorhersagen und aufgelöste Ergebnisse werden live als News-Feed-Items an PulseStack gepusht
+- **Auth**: JWT-basiert, geteiltes Secret mit [Jinodo](/projects/Jinodo) — Login einmal in Jinodo, automatisch eingeloggt im Stock-Predictor (Single Sign-On via JIT-Provisioning)
+- **Integration**: neue Vorhersagen und aufgelöste Ergebnisse werden live als News-Feed-Items an Jinodo gepusht
 
 ## Qualitätssicherung
 

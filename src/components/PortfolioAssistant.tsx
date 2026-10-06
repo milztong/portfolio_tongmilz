@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Bot, CornerDownLeft, MessageCircle, Send, Sparkles, X } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
 
 type AnswerLink = { label: string; href: string };
@@ -17,14 +18,14 @@ const QUICK_QUESTIONS = [
 
 const KNOWLEDGE: Array<{ keywords: string[]; text: string; links?: AnswerLink[] }> = [
   {
-    keywords: ["starkstes projekt", "bestes projekt", "pulse", "pulsestack", "microservice", "kafka", "redis", "echtzeit"],
-    text: "Tongs technisch umfangreichstes Projekt ist PulseStack: ein Echtzeit-Workspace aus vier Spring-Boot-Microservices mit Kafka, Redis, WebSockets, React und einer React-Native-App. Dazu kommen 29 Unit-Tests, CI/CD und ein gemeinsames Login mit dem Stock Predictor.",
-    links: [{ label: "PulseStack Case Study", href: "/projects/PulseStack" }, { label: "Live-Anwendung", href: "https://pulse-stack-chi.vercel.app/" }],
+    keywords: ["starkstes projekt", "bestes projekt", "jinodo", "modular", "kafka", "redis", "echtzeit"],
+    text: "Tongs technisch umfangreichstes Projekt ist Jinodo: ein Echtzeit-Workspace mit vier fachlich getrennten Spring-Boot-Modulen, Kafka, Redis, WebSockets, React und einer React-Native-App. Das Backend wird kosteneffizient als gemeinsamer Service betrieben und bleibt im Code modular aufgebaut.",
+    links: [{ label: "Jinodo Case Study", href: "/projects/Jinodo" }, { label: "Live-Anwendung", href: "https://jinodo.tongmilz.com/" }],
   },
   {
     keywords: ["backend", "java", "spring", "api", "server", "architektur", "distributed", "verteilte systeme"],
-    text: "Für eine Backend-Rolle bringt Tong praktische Erfahrung mit Java 21, Spring Boot, REST APIs, JWT-Authentifizierung, PostgreSQL, Kafka, Redis und WebSockets mit. Besonders aussagekräftig sind die Event-getriebene PulseStack-Architektur und der Spring-Boot-basierte Stock Predictor.",
-    links: [{ label: "Backend-Projekte ansehen", href: "/projects" }, { label: "PulseStack öffnen", href: "/projects/PulseStack" }],
+    text: "Für eine Backend-Rolle bringt Tong praktische Erfahrung mit Java 21, Spring Boot, REST APIs, JWT-Authentifizierung, PostgreSQL, Kafka, Redis und WebSockets mit. Besonders aussagekräftig sind die Event-getriebene Jinodo-Architektur und der Spring-Boot-basierte Stock Predictor.",
+    links: [{ label: "Backend-Projekte ansehen", href: "/projects" }, { label: "Jinodo öffnen", href: "/projects/Jinodo" }],
   },
   {
     keywords: ["ki", "ai", "kunstliche intelligenz", "masterarbeit", "diffusion", "gan", "vae", "machine learning"],
@@ -33,18 +34,18 @@ const KNOWLEDGE: Array<{ keywords: string[]; text: string; links?: AnswerLink[] 
   },
   {
     keywords: ["stock", "aktie", "predictor", "vorhersage", "scoring", "leaderboard"],
-    text: "Der Stock Predictor ist eine tägliche Challenge mit anonymisierten Aktien. Nutzer prognostizieren Richtung und Zielpreis; nach sieben Tagen werden Ticker und Ergebnis aufgelöst. Ein eigenes Scoring-System, Leaderboard, echte Marktdaten und Single Sign-on mit PulseStack machen daraus ein vollständiges Full-Stack-Produkt.",
+    text: "Der Stock Predictor ist eine tägliche Challenge mit anonymisierten Aktien. Nutzer prognostizieren Richtung und Zielpreis; nach sieben Tagen werden Ticker und Ergebnis aufgelöst. Ein eigenes Scoring-System, Leaderboard, echte Marktdaten und Single Sign-on mit Jinodo machen daraus ein vollständiges Full-Stack-Produkt.",
     links: [{ label: "Stock Predictor Case Study", href: "/projects/StockPrediction" }, { label: "Projekt ausprobieren", href: "/stock-predictor/landing" }],
   },
   {
     keywords: ["frontend", "react", "typescript", "next", "mobile", "android", "oberflache", "ui", "ux"],
-    text: "Im Frontend arbeitet Tong mit TypeScript, React, Next.js, Tailwind CSS und Framer Motion. Für PulseStack entwickelte er zusätzlich eine React-Native-App für Android mit Feed, Live-Chat, WebSockets und Stock-Predictor-Integration.",
+    text: "Im Frontend arbeitet Tong mit TypeScript, React, Next.js, Tailwind CSS und Framer Motion. Für Jinodo entwickelte er zusätzlich eine React-Native-App für Android mit Feed, Live-Chat, WebSockets und Stock-Predictor-Integration.",
     links: [{ label: "Projekte ansehen", href: "/projects" }],
   },
   {
     keywords: ["test", "qualitat", "coverage", "ci", "cd", "github actions", "deployment"],
-    text: "PulseStack und Stock Predictor umfassen zusammen 54 Unit-Tests mit JUnit 5, Mockito und MockWebServer. GitHub Actions übernimmt Build, Tests, Coverage-Reports und das anschließende Deployment. Hinzu kommen strukturiertes Logging und OpenAPI-Dokumentation.",
-    links: [{ label: "Qualitätssicherung bei PulseStack", href: "/projects/PulseStack" }],
+    text: "Jinodo und Stock Predictor umfassen zusammen mehr als 50 automatisierte Tests mit JUnit 5, Mockito und MockWebServer. GitHub Actions übernimmt Build, Tests, Coverage-Reports und das anschließende Deployment. Hinzu kommen strukturiertes Logging und OpenAPI-Dokumentation.",
+    links: [{ label: "Qualitätssicherung bei Jinodo", href: "/projects/Jinodo" }],
   },
   {
     keywords: ["beruf", "erfahrung", "datev", "kontron", "arbeit", "unternehmen", "werkstudent", "praktikum"],
@@ -102,6 +103,7 @@ function findAnswer(question: string) {
 }
 
 export function PortfolioAssistant() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState("");
@@ -143,6 +145,8 @@ export function PortfolioAssistant() {
     event.preventDefault();
     ask(input);
   };
+
+  if (pathname.startsWith("/en")) return null;
 
   return (
     <>

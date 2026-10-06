@@ -27,11 +27,11 @@ export default function HomePage() {
 
           <div className="grid gap-5 lg:grid-cols-12">
             <Link
-              href="/projects/PulseStack"
+              href="/projects/Jinodo"
               className="focus-ring group overflow-hidden rounded-[1.75rem] border border-white/10 bg-surface lg:col-span-8"
             >
               <div className="min-h-80 border-b border-white/8 sm:min-h-96">
-                <ProjectVisual slug="PulseStack" />
+                <ProjectVisual slug="Jinodo" />
               </div>
               <div className="p-6 sm:p-8">
                 <div className="flex items-start justify-between gap-6">
@@ -40,9 +40,9 @@ export default function HomePage() {
                       <Badge>Flagship Project</Badge>
                       <Badge>Web + Android</Badge>
                     </div>
-                    <h3 className="text-3xl font-black tracking-tight text-white sm:text-4xl">PulseStack</h3>
+                    <h3 className="text-3xl font-black tracking-tight text-white sm:text-4xl">Jinodo</h3>
                     <p className="mt-4 max-w-2xl text-pretty text-base leading-7 text-muted sm:text-lg">
-                      Echtzeit-Workspace mit automatisierten Trend-Feeds, Live-Chat und vier unabhängigen Microservices – verbunden über Kafka, Redis und WebSockets.
+                      Echtzeit-Workspace mit automatisierten Trend-Feeds und Live-Chat – als modularer Spring-Boot-Service mit Kafka, Redis und WebSockets.
                     </p>
                   </div>
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 text-white transition-all group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:border-brand group-hover:text-brand">
@@ -58,9 +58,9 @@ export default function HomePage() {
             <div className="grid gap-5 lg:col-span-4">
               <article className="overflow-hidden rounded-[1.75rem] border border-brand/20 bg-brand p-6 text-page sm:p-8">
                 <CheckCircle2 size={28} aria-hidden="true" />
-                <p className="mt-14 text-6xl font-black tracking-tight">54</p>
-                <p className="mt-1 text-xl font-black">Unit-Tests</p>
-                <p className="mt-4 text-sm leading-6 text-page/70">JUnit 5, Mockito und automatisierte Coverage-Reports für die kritischen Abläufe.</p>
+                <p className="mt-14 text-6xl font-black tracking-tight">50+</p>
+                <p className="mt-1 text-xl font-black">Automatisierte Tests</p>
+                <p className="mt-4 text-sm leading-6 text-page/70">JUnit 5, Mockito und Coverage-Reports für die kritischen Abläufe beider Produkte.</p>
               </article>
               <article className="panel rounded-[1.75rem] p-6 sm:p-8">
                 <Network size={26} className="text-electric" aria-hidden="true" />
@@ -79,7 +79,7 @@ export default function HomePage() {
                   </div>
                   <ArrowUpRight className="text-muted transition-colors group-hover:text-brand" aria-hidden="true" />
                 </div>
-                <p className="mt-4 leading-7 text-muted">Tägliche anonymisierte Aktien-Challenge mit eigener Scoring-Logik, Leaderboard und SSO zu PulseStack.</p>
+                <p className="mt-4 leading-7 text-muted">Tägliche anonymisierte Aktien-Challenge mit eigener Scoring-Logik, Leaderboard und SSO zu Jinodo.</p>
               </div>
             </Link>
 
