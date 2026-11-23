@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tong Milz — Developer Portfolio
 
-## Getting Started
+A bilingual developer portfolio focused on presenting projects as concise engineering case studies rather than a collection of screenshots. The site combines professional experience, technical project pages, interactive demos, and an on-site portfolio assistant in a responsive Next.js application.
 
-First, run the development server:
+**Live site:** [www.tongmilz.com](https://www.tongmilz.com)
+
+## Highlights
+
+- German and English landing pages
+- Project and work-experience case studies authored in MDX
+- Dynamic detail pages generated from structured front matter
+- Interactive local “Ask Tong” assistant for portfolio questions
+- Embedded Stock Prediction Game with shared Jinodo authentication
+- Jinodo web-app and Android APK links
+- Responsive layout, motion, and accessible navigation
+- Metadata, Open Graph image generation, sitemap, robots rules, and JSON-LD
+- Production deployment on Vercel with a custom domain
+
+## Technology stack
+
+| Area | Technology |
+| --- | --- |
+| Framework | Next.js 16 with App Router |
+| UI | React 19, TypeScript, Tailwind CSS 4 |
+| Content | MDX, gray-matter, next-mdx-remote |
+| Interaction | Framer Motion, Lucide icons |
+| Charts | Lightweight Charts |
+| Quality | ESLint, TypeScript, Next.js production build |
+| Hosting | Vercel |
+
+## Project structure
+
+```text
+src/
+├── app/                 # Routes, layouts, metadata, sitemap and robots
+├── components/          # Shared UI and interactive portfolio components
+├── content/
+│   ├── projects/        # Project case studies in MDX
+│   └── work/            # Work-experience entries in MDX
+└── lib/                 # Content loading and shared helpers
+
+public/
+├── downloads/           # Downloadable Jinodo Android build
+└── ...                  # Images and static assets
+```
+
+## Main routes
+
+| Route | Description |
+| --- | --- |
+| `/` | German landing page |
+| `/en` | English landing page |
+| `/projects` | Project overview |
+| `/projects/[slug]` | MDX-powered project case study |
+| `/work` | Professional experience overview |
+| `/work/[slug]` | Detailed work entry |
+| `/about` | Personal profile and background |
+| `/stock-predictor` | Embedded Stock Prediction Game |
+
+## Local development
+
+### Prerequisites
+
+- Node.js 20 or newer
+- npm
+
+### Installation
+
+```bash
+git clone https://github.com/milztong/portfolio_tongmilz.git
+cd portfolio_tongmilz
+npm install
+```
+
+Create `.env.local` when the embedded Stock Predictor should use non-default services:
+
+```dotenv
+NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_JINODO_URL=https://api.tongmilz.com
+```
+
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_API_URL` | Stock Predictor backend used by the `/backend` rewrite |
+| `NEXT_PUBLIC_JINODO_URL` | Jinodo backend used by the `/auth-backend` authentication rewrite |
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Content workflow
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Project and work pages are stored as MDX files in `src/content`. Each file combines structured front matter with the long-form case study, so new entries can be added without creating a dedicated React page.
 
-## Learn More
+Typical project front matter contains information such as the title, summary, technology tags, image, repository, live link, and display order. The dynamic routes load that metadata and render the MDX body with the shared portfolio layout.
 
-To learn more about Next.js, take a look at the following resources:
+## Quality checks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The production build validates the TypeScript application, renders the static routes, and generates the SEO endpoints.
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The repository is connected to Vercel. Production deployments use the custom domain [www.tongmilz.com](https://www.tongmilz.com).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Configure `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_JINODO_URL` for the **Production** and **Preview** environments in Vercel, then redeploy when either value changes.
+
+## Featured projects
+
+- [Jinodo](https://jinodo.tongmilz.com) — a real-time content and communication platform
+- [Stock Prediction Game](https://github.com/milztong/StockPredictionGame) — an anonymized daily market prediction challenge
+- Additional case studies covering generative AI, VR, fitness, and enterprise workflows
