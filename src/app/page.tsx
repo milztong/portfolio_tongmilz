@@ -1,12 +1,17 @@
 import { InteractiveHero } from "@/components/InteractiveHero";
 import { PageTransition } from "@/components/PageTransition";
 import { ProjectVisual } from "@/components/ProjectVisual";
+import { getAllProjects } from "@/lib/mdx";
 import { ArrowRight, ArrowUpRight, CheckCircle2, Code2, Network, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 const stack = ["Java 21", "Spring Boot", "Kafka", "Redis", "React", "TypeScript", "React Native"];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const projects = await getAllProjects();
+  const reviewHop = projects.find((project) => project.slug === "ReviewHop");
+  const coverFor = (slug: string) => projects.find((project) => project.slug === slug)?.meta.image;
+
   return (
     <PageTransition>
       <main className="pb-24 md:pb-32">
@@ -26,12 +31,27 @@ export default function HomePage() {
           </div>
 
           <div className="grid gap-5 lg:grid-cols-12">
+            {reviewHop && (
+              <Link href="/projects/ReviewHop" className="focus-ring group grid overflow-hidden rounded-[1.75rem] border border-white/10 bg-surface md:grid-cols-2 lg:col-span-12">
+                <div className="min-h-64 md:min-h-80">
+                  <ProjectVisual slug={reviewHop.slug} cover={reviewHop.meta.image} />
+                </div>
+                <div className="flex flex-col justify-center p-6 sm:p-9">
+                  <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-brand">Neues Projekt · Spaced Repetition</p>
+                  <h3 className="mt-3 text-3xl font-black text-white sm:text-4xl">{reviewHop.meta.title}</h3>
+                  <p className="mt-4 leading-7 text-muted">{reviewHop.meta.description}</p>
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-brand group-hover:text-white">
+                    Projekt ansehen <ArrowUpRight size={17} aria-hidden="true" />
+                  </span>
+                </div>
+              </Link>
+            )}
             <Link
               href="/projects/Jinodo"
               className="focus-ring group overflow-hidden rounded-[1.75rem] border border-white/10 bg-surface lg:col-span-8"
             >
               <div className="min-h-80 border-b border-white/8 sm:min-h-96">
-                <ProjectVisual slug="Jinodo" />
+                <ProjectVisual slug="Jinodo" cover={coverFor("Jinodo")} />
               </div>
               <div className="p-6 sm:p-8">
                 <div className="flex items-start justify-between gap-6">
@@ -70,7 +90,7 @@ export default function HomePage() {
             </div>
 
             <Link href="/projects/StockPrediction" className="focus-ring group overflow-hidden rounded-[1.75rem] border border-white/10 bg-surface lg:col-span-6">
-              <div className="h-72 border-b border-white/8"><ProjectVisual slug="StockPrediction" /></div>
+              <div className="h-72 border-b border-white/8"><ProjectVisual slug="StockPrediction" cover={coverFor("StockPrediction")} /></div>
               <div className="p-6 sm:p-8">
                 <div className="flex items-center justify-between gap-5">
                   <div>
@@ -84,7 +104,7 @@ export default function HomePage() {
             </Link>
 
             <Link href="/projects/GenerativeAI" className="focus-ring group overflow-hidden rounded-[1.75rem] border border-white/10 bg-surface lg:col-span-6">
-              <div className="h-72 border-b border-white/8"><ProjectVisual slug="GenerativeAI" /></div>
+              <div className="h-72 border-b border-white/8"><ProjectVisual slug="GenerativeAI" cover={coverFor("GenerativeAI")} /></div>
               <div className="p-6 sm:p-8">
                 <div className="flex items-center justify-between gap-5">
                   <div>

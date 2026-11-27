@@ -1,0 +1,30 @@
+---
+title: "ReviewHop"
+date: "2026-11-27"
+status: "Öffentliche Demo in Vorbereitung"
+description: "Eine Lernanwendung, die aus gelösten Programmieraufgaben einen persönlichen Wiederholungsplan macht."
+repositoryUrl: "https://github.com/milztong/ReviewHop"
+image: "/images/projects/ReviewHop/homepage.webp"
+screenshots:
+  - src: "/images/projects/ReviewHop/homepage.webp"
+    caption: "Startseite der Demo mit Einstieg über OpenID Connect."
+  - src: "/images/projects/ReviewHop/workspace.webp"
+    caption: "Im Arbeitsbereich lassen sich gelöste Aufgaben eintragen oder über Codewars importieren."
+  - src: "/images/projects/ReviewHop/question-card.webp"
+    caption: "Fällige Reviews zeigen die Aufgabenfrage. Der eigene Lösungsansatz bleibt bis zum Aufdecken verborgen."
+  - src: "/images/projects/ReviewHop/login.webp"
+    caption: "Anmeldung über Keycloak am Beispiel eines Demo-Kontos."
+---
+
+## Vom gelösten Problem zur nächsten Wiederholung
+
+Wer eine Programmieraufgabe einmal gelöst hat, erinnert sich später nicht unbedingt an den Lösungsweg. In ReviewHop lassen sich Aufgaben manuell erfassen oder aus einem öffentlichen Codewars-Profil übernehmen. Bei der Wiederholung rufen Lernende den Lösungsansatz aus dem Gedächtnis ab und bewerten, wie gut sie sich erinnert haben. FSRS berechnet daraus den nächsten Termin. Die Historie hält Bewertung und Folgetermin fest.
+
+## Technische Entscheidungen
+
+- **Modularer Monolith:** Java 21 und Spring Boot 3. Hexagonale Modulgrenzen trennen die Review-Logik und den Scheduler von HTTP und Persistenz.
+- **Asynchroner Import:** Eine Transactional Outbox in PostgreSQL hält Importaufträge fest. Ein separater Worker verarbeitet sie mit begrenzten Wiederholungsversuchen. Wiederholte Zustellungen dürfen keine Duplikate erzeugen.
+- **Web und Anmeldung:** Next.js und TypeScript bilden die Oberfläche. Keycloak übernimmt die Anmeldung über OpenID Connect.
+- **Tests und Betrieb:** Testcontainers und ArchUnit prüfen Datenbankintegration und Modulgrenzen. OpenTelemetry, Prometheus und Grafana machen den Import beobachtbar.
+
+Der [Demo-Rundgang im Repository](https://github.com/milztong/ReviewHop/blob/HEAD/docs/demo/portfolio.md) dokumentiert den lokalen Start und den Review-Ablauf mit Beispieldaten.

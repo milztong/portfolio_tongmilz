@@ -1,6 +1,20 @@
 import { Activity, Database, GitBranch, Radio, Server, Smartphone } from "lucide-react";
+import Image from "next/image";
 
-export function ProjectVisual({ slug, compact = false }: { slug: string; compact?: boolean }) {
+export function ProjectVisual({ slug, cover, compact = false }: { slug: string; cover?: string; compact?: boolean }) {
+  if (cover) {
+    return (
+      <div className="relative h-full min-h-64 overflow-hidden bg-surface-strong">
+        <Image
+          src={cover}
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 50vw, (min-width: 768px) 65vw, 100vw"
+          className="object-contain"
+        />
+      </div>
+    );
+  }
   if (slug === "Jinodo") return <JinodoVisual compact={compact} />;
   if (slug === "StockPrediction") return <StockVisual />;
   if (slug === "GenerativeAI") return <TrajectoryVisual />;

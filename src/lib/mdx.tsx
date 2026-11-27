@@ -12,6 +12,7 @@ export interface ProjectMeta {
   duration?: string;    
   year?: string;        
   image?: string;
+  screenshots?: { src: string; caption: string }[];
   images?: string[];    
   status?: string;
   liveUrl?: string;

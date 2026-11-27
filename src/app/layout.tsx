@@ -55,7 +55,7 @@ export default function RootLayout({
     "@type": "Person",
     name: "Tong Milz",
     url: "https://www.tongmilz.com",
-    image: "https://www.tongmilz.com/Profilbild_TongMilz.jpeg",
+    image: "https://www.tongmilz.com/images/tong-milz-portrait.webp",
     jobTitle: "Softwareentwickler",
     address: {
       "@type": "PostalAddress",

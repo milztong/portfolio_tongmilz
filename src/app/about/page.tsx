@@ -37,7 +37,7 @@ export default function AboutPage() {
             <div className="panel relative overflow-hidden rounded-[2rem] p-3">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[1.4rem] bg-surface-strong">
                 <Image
-                  src="/Profilbild_TongMilz.jpeg"
+                  src="/images/tong-milz-portrait.webp"
                   alt="Tong Milz"
                   fill
                   priority

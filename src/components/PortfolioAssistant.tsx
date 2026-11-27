@@ -10,6 +10,7 @@ type AnswerLink = { label: string; href: string };
 type Message = { id: number; role: "assistant" | "user"; text: string; links?: AnswerLink[] };
 
 const QUICK_QUESTIONS = [
+  "Was ist ReviewHop?",
   "Warum passt Tong zu einer Backend-Stelle?",
   "Zeig mir sein stärkstes Projekt",
   "Welche AI-Erfahrung hat Tong?",
@@ -17,6 +18,11 @@ const QUICK_QUESTIONS = [
 ];
 
 const KNOWLEDGE: Array<{ keywords: string[]; text: string; links?: AnswerLink[] }> = [
+  {
+    keywords: ["reviewhop", "spaced repetition", "codewars", "fsrs", "lernapp"],
+    text: "ReviewHop macht aus gelösten Programmieraufgaben einen persönlichen Wiederholungsplan. FSRS berechnet die nächsten Termine. Ein separater Worker importiert öffentliche Abschlussdaten von Codewars über eine PostgreSQL-Outbox.",
+    links: [{ label: "ReviewHop-Projektseite mit Screenshots", href: "/projects/ReviewHop" }],
+  },
   {
     keywords: ["starkstes projekt", "bestes projekt", "jinodo", "modular", "kafka", "redis", "echtzeit"],
     text: "Tongs technisch umfangreichstes Projekt ist Jinodo: ein Echtzeit-Workspace mit vier fachlich getrennten Spring-Boot-Modulen, Kafka, Redis, WebSockets, React und einer React-Native-App. Das Backend wird kosteneffizient als gemeinsamer Service betrieben und bleibt im Code modular aufgebaut.",

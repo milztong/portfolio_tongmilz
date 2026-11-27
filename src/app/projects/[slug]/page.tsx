@@ -4,6 +4,7 @@ import { NextProject } from "@/components/NextProject";
 import { ProjectGallery } from "@/components/DetailedView";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Download, ExternalLink, Github, Smartphone } from "lucide-react";
 
@@ -38,6 +39,8 @@ export default async function ProjectDetailPage({
 
   const { meta, content } = await getProjectBySlug(slug);
   const next = await getNextProject(slug);
+  const galleryImages = meta.images?.length ? meta.images : meta.image ? [meta.image] : [];
+  const hasMultipleScreenshots = (meta.screenshots?.length ?? 0) > 1;
 
   return (
     <PageTransition>
@@ -107,13 +110,19 @@ export default async function ProjectDetailPage({
             )}
           </div>
 
-          {meta.images && meta.images.length > 0 ? (
-            <div className="w-full -mx-6 md:mx-0">
-              <ProjectGallery images={meta.images} />
+          {meta.screenshots?.length ? (
+            <div className={`grid grid-cols-1 gap-4 ${hasMultipleScreenshots ? "md:grid-cols-2" : ""}`}>
+              {meta.screenshots.map(({ src, caption }) => (
+                <figure key={src} className="min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-surface">
+                  <a href={src} className="focus-ring relative block aspect-[8/5] max-h-[32rem] bg-surface-strong" aria-label={`Bild in voller Größe öffnen: ${caption}`}>
+                    <Image src={src} alt="" fill sizes={hasMultipleScreenshots ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1248px) 1216px, 100vw"} className="object-contain" />
+                  </a>
+                  <figcaption className="px-4 py-3 text-sm leading-6 text-muted">{caption}</figcaption>
+                </figure>
+              ))}
             </div>
-          ) : meta.image ? (
-            <div className="relative aspect-video w-full overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02]">
-            </div>
+          ) : galleryImages.length > 0 ? (
+            <ProjectGallery images={galleryImages} />
           ) : null}
         </header>
 

@@ -12,6 +12,7 @@ const shortTitles: Record<string, string> = {
 };
 
 const categories: Record<string, string> = {
+  ReviewHop: "Backend · Spaced Repetition",
   Jinodo: "Event-driven Platform",
   StockPrediction: "Full-Stack",
   GenerativeAI: "AI Research",
@@ -21,8 +22,9 @@ const categories: Record<string, string> = {
 };
 
 export default async function ProjectsPage() {
-  const priority = ["Jinodo", "StockPrediction", "GenerativeAI", "Fitnessapp", "VR_Swingman", "Praktikumsformular"];
-  const projects = (await getAllProjects()).sort((a, b) => priority.indexOf(a.slug) - priority.indexOf(b.slug));
+  const priority = ["ReviewHop", "Jinodo", "StockPrediction", "GenerativeAI", "Fitnessapp", "VR_Swingman", "Praktikumsformular"];
+  const rank = (slug: string) => priority.includes(slug) ? priority.indexOf(slug) : priority.length;
+  const projects = (await getAllProjects()).sort((a, b) => rank(a.slug) - rank(b.slug));
 
   return (
     <PageTransition>
@@ -45,7 +47,7 @@ export default async function ProjectsPage() {
               className={`focus-ring group overflow-hidden rounded-[1.75rem] border border-white/10 bg-surface ${index === 0 ? "md:col-span-2 md:grid md:grid-cols-2" : ""}`}
             >
               <div className={`${index === 0 ? "min-h-80 md:min-h-[28rem]" : "h-72"} overflow-hidden border-b border-white/8 md:border-b-0`}>
-                <ProjectVisual slug={project.slug} compact={index !== 0} />
+                <ProjectVisual slug={project.slug} cover={project.meta.image} compact={index !== 0} />
               </div>
               <div className={`flex flex-col p-6 sm:p-8 ${index === 0 ? "justify-between" : ""}`}>
                 <div>

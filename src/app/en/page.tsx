@@ -1,5 +1,6 @@
 import { PageTransition } from "@/components/PageTransition";
 import { ProjectVisual } from "@/components/ProjectVisual";
+import { getAllProjects } from "@/lib/mdx";
 import type { Metadata } from "next";
 import { ArrowDownRight, ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
 import Link from "next/link";
@@ -23,7 +24,10 @@ export const metadata: Metadata = {
 
 const stack = ["Java 21", "Spring Boot", "Kafka", "Redis", "PostgreSQL", "React", "TypeScript", "React Native"];
 
-export default function EnglishHomePage() {
+export default async function EnglishHomePage() {
+  const projects = await getAllProjects();
+  const coverFor = (slug: string) => projects.find((project) => project.slug === slug)?.meta.image;
+
   return (
     <PageTransition>
       <main className="pb-24 md:pb-32">
@@ -87,14 +91,23 @@ export default function EnglishHomePage() {
 
         <section id="projects" className="site-container scroll-mt-28 py-20 md:py-28">
           <p className="eyebrow mb-4">Selected work</p>
-          <h2 className="max-w-3xl text-balance text-4xl font-black tracking-tighter text-white sm:text-5xl md:text-6xl">Built, tested and deployed.</h2>
+          <h2 className="max-w-3xl text-balance text-4xl font-black tracking-tighter text-white sm:text-5xl md:text-6xl">From learning tools to real-time apps.</h2>
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            <EnglishProject
+              slug="ReviewHop"
+              title="ReviewHop"
+              label="Spaced repetition"
+              description="A learning app that turns solved coding problems into a personal review schedule, with a Codewars import and FSRS scheduling."
+              href="/projects/ReviewHop"
+              cover={coverFor("ReviewHop")}
+            />
             <EnglishProject
               slug="Jinodo"
               title="Jinodo"
               label="Event-driven platform"
               description="A modular Spring Boot platform that combines automated technology feeds, real-time chat, analytics and an Android client. Kafka, Redis and WebSockets connect the core workflows."
               href="/projects/Jinodo"
+              cover={coverFor("Jinodo")}
               liveUrl="https://jinodo.tongmilz.com"
             />
             <EnglishProject
@@ -103,6 +116,7 @@ export default function EnglishHomePage() {
               label="Full-stack product"
               description="A daily game built around anonymized market data, price and direction predictions, transparent scoring, automated resolution and a public leaderboard."
               href="/projects/StockPrediction"
+              cover={coverFor("StockPrediction")}
             />
             <EnglishProject
               slug="GenerativeAI"
@@ -110,6 +124,7 @@ export default function EnglishHomePage() {
               label="Master's thesis"
               description="A comparison of VAE, GAN and diffusion models for generating realistic multi-agent vehicle collision trajectories from a limited real-world dataset."
               href="/projects/GenerativeAI"
+              cover={coverFor("GenerativeAI")}
             />
             <article className="panel flex min-h-72 flex-col justify-between rounded-[1.75rem] p-7 sm:p-9">
               <div>
@@ -157,10 +172,10 @@ function Proof({ value, label }: { value: string; label: string }) {
   return <div className="border-l border-white/10 px-3 first:border-l-0 first:pl-0 sm:px-4"><dt className="text-xs leading-4 text-muted sm:text-sm">{label}</dt><dd className="mt-1 text-2xl font-black tracking-tight text-white sm:text-3xl">{value}</dd></div>;
 }
 
-function EnglishProject({ slug, title, label, description, href, liveUrl }: { slug: string; title: string; label: string; description: string; href: string; liveUrl?: string }) {
+function EnglishProject({ slug, title, label, description, href, liveUrl, cover }: { slug: string; title: string; label: string; description: string; href: string; liveUrl?: string; cover?: string }) {
   return (
     <article className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-surface">
-      <div className="h-72 border-b border-white/8"><ProjectVisual slug={slug} /></div>
+      <div className="h-72 border-b border-white/8"><ProjectVisual slug={slug} cover={cover} /></div>
       <div className="p-6 sm:p-8">
         <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-brand">{label}</p>
         <h3 className="mt-3 text-3xl font-black text-white">{title}</h3>

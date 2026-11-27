@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/en",
     "/about",
     "/projects",
+    "/projects/ReviewHop",
     "/projects/Jinodo",
     "/projects/StockPrediction",
     "/projects/GenerativeAI",
